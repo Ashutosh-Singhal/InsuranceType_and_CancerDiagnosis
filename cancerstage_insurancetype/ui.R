@@ -1,92 +1,115 @@
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
+# Ashutosh
 
-library(shiny)
-library(shinythemes)
 
+#SIDE BAR 1
 side_bar_1 <- sidebarLayout(
   
-  sidebarPanel(
-    selectInput(width = 350, 
-                "stage", 
-                label="Select Stage of Cancer:", 
-                choices = c("0" = "Stage_0",
-                            "I" = "Stage_I",
-                            "II" = "Stage_II",
-                            "III" = "Stage_III",
-                            "IV" = "Stage_IV",
-                            "OC" = "Stage_OC",
-                            "NA" = "Stage_NA",
-                            "UNK" = "Stage_UNK"),
-                multiple = FALSE,
-                selected = "Stage_0")
-    
-  ),
-  
-  mainPanel(
-    tabsetPanel(
-      
-      tabPanel("Summary",
-               wellPanel(p("test"))
-      ) 
-    )
-  )
-)#closing sidebar1
-
-side_bar_2 <- sidebarLayout(
-  
-  sidebarPanel(
+  sidebarPanel(width = 2,
     selectInput("year", label="Select Year:", choices = year, selected = "2007")
   ),
   mainPanel(
     tabsetPanel(
-      tabPanel("Summary", 
-               wellPanel(p("test"))
-               )
+      tabPanel("Barplot", plotlyOutput("itype_year_plt", width = "100%", height = 600)) 
+      # tabPanel("Summary", wellPanel(p("Add text here"))
+      #)
+    )
+  )
+)#closing sidebar1
+
+
+#SIDE BAR 2
+side_bar_2 <- sidebarLayout(
+
+  sidebarPanel(width = 2,
+    selectInput(
+                "stage",
+                label="Select Stage of Cancer:",
+                choices = c("0 : Abnormal Cells" = "Stage_0",
+                            "I : Localized" = "Stage_I",
+                            "II : Large & Lymph Nodes" = "Stage_II",
+                            "III : Larger & Spreaded" = "Stage_III",
+                            "IV : Advanced/Metastatic" = "Stage_IV",
+                            "OC : Other Category" = "Stage_OC",
+                            "NA: Not Applicable" = "Stage_NA",
+                            "UNK: Unknown" = "Stage_UNK"),
+                multiple = FALSE,
+                selected = "Stage_I")
+
+  ),
+
+  mainPanel(
+    tabsetPanel(
+      tabPanel("Lineplot",  plotOutput("allyear_plt", width = 1100, height = 600))
+      # tabPanel("Summary",
+      #          wellPanel(p("test"))
+      # )
     )
   )
 )#closing sidebar2
 
-#Themes selection: cerulean, cosmo, cyborg, darkly, flatly, 
+
+# SIDE BAR 3
+side_bar_3 <- sidebarLayout(
+  sidebarPanel(width = 2,
+    selectInput("status", label="Select Insurance Type:", choices = status, selected = "Medicaid")
+    ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Cleveland Plot", plotlyOutput("difference_plot_lolipop", width = "100%", height = 600)),
+        tabPanel("Barplot", plotlyOutput("difference_barplot", width = "100%", height = 600))
+        # tabPanel("Summary", wellPanel(p("Add text here")))
+        
+        )
+  )
+)#closing sidebar3
+
+#
+
+#Themes selection: cerulean, cosmo, #cyborg, darkly, flatly, 
 # lumen, paper, readable, sandstone, simplex, slate, spacelab, superhero, united, yeti.
 
 header <- dashboardHeader(title = "Cancer Diagnosis & Health Insurance", titleWidth = 350)
 
 ui <- navbarPage(header,
-                theme = shinytheme("slate"),
-                 
-                 tabPanel("Year",
-                          side_bar_2, 
-                          plotlyOutput("itype_year_plt", width = 1000, height = 600)),
                 
-                tabPanel("Stage", 
-                         side_bar_1, 
-                         plotOutput("allyear_plt", width = 1200, height = 600)),
-                
-                 tabPanel("Affordable Care Act (ACA)", 
-                          mainPanel(
-              tabsetPanel(
-                     tabPanel("Pre-Affordable Care Act", width = 12, plotlyOutput("pre_ACA_plt", width = 1000, height = 600)), 
-                     tabPanel("Post-Affordable Care Act", plotlyOutput("post_ACA_plt", width = 1000, height = 600)), 
-                     tabPanel("Pre- Vs Post-Affordable Care Act", plotlyOutput("pre_post_ACA_plt", width = 1000, height = 600)),
-                     tabPanel("Difference", plotlyOutput("pre_post_ACA_barplt", width = 1000, height = 600))
-                  
-  
+            theme = shinytheme("cyborg"),
+            tabPanel("Year",
+                          side_bar_1),
+            tabPanel("Stage", 
+                      # h4("Cancer stage diagnosis: 2007-2016"),
+                          side_bar_2),
+            tabPanel("Affordable Care Act (ACA)", 
+                     # h4("Add text here"),
+              mainPanel(
+                  tabsetPanel(
+                    tabPanel("Pre-ACA", plotlyOutput("pre_ACA_plt", width = 1200, height = 600)), 
+                    tabPanel("Post-ACA", plotlyOutput("post_ACA_plt", width = 1200, height = 600)) 
+                    # tabPanel("Summary", wellPanel(p("Add text here")))
                    )
                  )),
-                 tabPanel("Mosaic Plot", plotOutput("mosaic_plot", width = 1600, height = 600))
-                 # navbarMenu("More",
-                 #            tabPanel("Sub-Component A"),
-                 #            tabPanel("Sub-Component B"))
-)
+            
+            tabPanel("After ~10 years",
+                     mainPanel(
+                       tabsetPanel(
+                         tabPanel("Year : 2007", plotOutput("mosaic_plot", width = 1200, height = 600)), 
+                         tabPanel("Year : 2016", plotOutput("mosaic_plot2016", width = 1200, height = 600))
+                         # tabPanel("Summary", wellPanel(p("Add text here")))
+                         
+                       )#tabsetPanel
+                     )),         
+            
+            tabPanel("Difference After ACA", 
+                     side_bar_3) # Closing the final page
+          
+                  
+) # Closing navbar page of the UI
 
 
-#, tableOutput("table")
-# , verbatimTextOutput("summary")
-# , plotOutput("plot")
+# Extra: if needed to add extra material in the end
+# navbarMenu("More",
+#            tabPanel("Sub-Component A"),
+#            ("------"),
+#            "Section header",
+#           tabPanel("Sub-Component B"))
+
 
