@@ -23,3 +23,7 @@ Registry Manag. 2016 Fall;41(3):143-151. PubMed PMID: 28121315.
  
 ## Data Sources
 The National Cancer Database (NCDB, http://oliver.facs.org/BMPub/) maintains data of 14 most commonly diagnosed solid tumors in the United States consisting more than 9 million cases from 2003–2016 (for some parameters up to 2016). Data were collected from three types of hospitals (community, comprehensive community, and academic/teaching facilities) from specific geographic region or state.
+
+## Link to Shiny App:
+
+https://ashutosh-singhal.shinyapps.io/cancerstage_insurancetype/
