@@ -279,8 +279,8 @@ ggplotly(post_ACA_bar)
 
 #+++++++++++++
 #Five year survival plot
-Stage <- c("Stage 0 & I", "Stage II", "Stage III", "Stage IV")
-rate <- c("100",  )
+#Stage <- c("Stage 0 & I", "Stage II", "Stage III", "Stage IV")
+#rate <- c("100",  )
 
 # Y2K7_2K9 <- master_df %>% 
 #   filter(Year == 2007 | Year == 2008 | Year == 2009 ) %>% 
